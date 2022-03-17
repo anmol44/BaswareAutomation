@@ -48,7 +48,7 @@ public class Sbs extends BaseTest {
 	static String prNumber="";
 	static int j=1;
 	
-	@Test    //Anmol chaudhary
+	@Test    //Sbs Test for multiple sub entity
 	@Parameters("Name")
 	public void sbs(String Name) throws InterruptedException, IOException {
 		
