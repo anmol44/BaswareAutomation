@@ -64,6 +64,16 @@ public class EditCoding extends BasePage {
 	static String viewDetailsXpath = "(//button[@class='btn dropdown-toggle ng-scope dropdown-toggle-secondary use-dropdown-style'])[1]";
 	static String viewDetailsButtonXpath = "(//button[@class='dropdown-btn btn-pal-actions-button'])[1]";
 	
+	static String codingJSXpath = "document.evaluate(\"//div[@aria-label='Coding']//span[@class='psl-icon-caret-down']\",document,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue";
+    private By codingInput = By.xpath("//input[@type='text' and @aria-label='Coding']");
+    static String codingSelect1= "//span[@class='ui-select-highlight' and contains(text(),'";
+    static String codingSelect2="')]//parent :: span[@class='ng-binding']//parent::li//parent::ul[@aria-label='Coding']";
+    
+    static String agencySiteCodeJSXpath = "document.evaluate(\"//div[@aria-label='Agency/Site Code']//span[@class='psl-icon-caret-down']\",document,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue";
+    private By agencySiteCodeInput = By.xpath("//input[@type='text' and @aria-label='Agency/Site Code']");
+    static String agencySiteCodeSelect1= "//span[@class='ui-select-highlight' and contains(text(),'";
+    static String agencySiteCodeSelect2="')]//parent :: span[@class='ng-binding']//parent::li//parent::ul[@aria-label='Agency/Site Code']";
+	
 	
 	public EditCoding(WebDriver driver) {
 		super(driver);
@@ -93,6 +103,13 @@ public class EditCoding extends BasePage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(addressSaveButtonXpath))).click();
 		
 	
+		return this;
+	}
+	
+	public EditCoding viewDetailsButton() {
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(viewDetailsXpath)));
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsXpath))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsButtonXpath))).click();
 		return this;
 	}
 	
@@ -231,14 +248,62 @@ public class EditCoding extends BasePage {
 		
 	}
 	
+	public EditCoding  editCodingNew(JavascriptExecutor javascriptExecutor,String coding,String agency,String type, String ssp)throws InterruptedException {
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(editCodingDivXpath)));
+		
+		webelement = (WebElement) javascriptExecutor.executeScript("return "+editCodingDivButtonXpath);
+		javascriptExecutor.executeScript("arguments[0].click()",webelement);
+		
+		
+	//  wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(ProvidePom.editCodingXpath))).click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(editCodingXpath))).click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(editCodingButtonXpath))).click();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(viewCodingXpath)));
+		
+		Thread.sleep(2000);
+		webelement = (WebElement) javascriptExecutor.executeScript("return "+codingJSXpath);
+		javascriptExecutor.executeScript("arguments[0].click()",webelement);
+	
+		wait.until(ExpectedConditions.visibilityOfElementLocated(codingInput)).sendKeys(coding);
+		Thread.sleep(2000);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(codingSelect1+coding+codingSelect2))).click();
+		
+		Thread.sleep(2000);
+		webelement = (WebElement) javascriptExecutor.executeScript("return "+agencySiteCodeJSXpath);
+		javascriptExecutor.executeScript("arguments[0].click()",webelement);
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(agencySiteCodeInput)).sendKeys(agency);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(agencySiteCodeSelect1+agency+agencySiteCodeSelect2))).click();
+	
+		
+		
+		
+		// ssp coding
+		if(type.equalsIgnoreCase("A")) {
+			Thread.sleep(2000);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sspXpath))).click();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sspDivXpath))).click();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sspSearchXpath))).sendKeys(ssp);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sspSearch1Xpath))).click();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sspSearchXpath))).clear();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sspSearchXpath))).sendKeys(ssp);
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sspSearch1Xpath))).click();
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(sspSelect1Xpath+ssp+sspSelect2Xpath))).click();
+			
+		}
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(editCodeSaveButtonXpath))).click();
+		return this;
+		
+	}
+	
 	public ViewDetails viewDetailsSBS(JavascriptExecutor javascriptExecutor,String requestor,String deliveryAddress,String nature,String agency,String type,String realEstateReference,String prType,String Approver,String ssp) throws InterruptedException {
 		headerData(requestor).
 		addAddress(deliveryAddress).
-		editCodingFR(javascriptExecutor, nature, agency, type, realEstateReference, prType, Approver, ssp);
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(viewDetailsXpath)));
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsXpath))).click();
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsButtonXpath))).click();
+		editCodingFR(javascriptExecutor, nature, agency, type, realEstateReference, prType, Approver, ssp).
+		viewDetailsButton();
 		
 		return new ViewDetails(driver); 
 	}
@@ -246,11 +311,8 @@ public class EditCoding extends BasePage {
 	public ViewDetails viewDetailsGalitt(JavascriptExecutor javascriptExecutor,String requestor,String deliveryAddress,String nature,String agency,String type,String prType,String ssp) throws InterruptedException {
 		headerData(requestor).
 		addAddress(deliveryAddress).
-		editCoding(javascriptExecutor, nature, agency, type, ssp);
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(viewDetailsXpath)));
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsXpath))).click();
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsButtonXpath))).click();
+		editCoding(javascriptExecutor, nature, agency, type, ssp).
+		viewDetailsButton();
 		
 		return new ViewDetails(driver); 
 	}
@@ -258,11 +320,8 @@ public class EditCoding extends BasePage {
 	public ViewDetails viewDetailsBeleux(JavascriptExecutor javascriptExecutor,String requestor,String deliveryAddress,String nature,String agency,String type,String prType,String ssp) throws InterruptedException {
 		headerData(requestor).
 		addAddress(deliveryAddress).
-		editCoding(javascriptExecutor, nature, agency, type, ssp);
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(viewDetailsXpath)));
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsXpath))).click();
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsButtonXpath))).click();
+		editCoding(javascriptExecutor, nature, agency, type, ssp).
+		viewDetailsButton();
 		
 		return new ViewDetails(driver); 
 	}
@@ -270,11 +329,8 @@ public class EditCoding extends BasePage {
 	public ViewDetails viewDetailsSpain(JavascriptExecutor javascriptExecutor,String requestor,String deliveryAddress,String nature,String agency,String type,String prType,String ssp) throws InterruptedException {
 		headerData(requestor).
 		addAddress(deliveryAddress).
-		editCoding(javascriptExecutor, nature, agency, type, ssp);
-		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(viewDetailsXpath)));
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsXpath))).click();
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsButtonXpath))).click();
+		editCoding(javascriptExecutor, nature, agency, type, ssp).
+		viewDetailsButton();
 		
 		return new ViewDetails(driver); 
 	}
@@ -282,11 +338,17 @@ public class EditCoding extends BasePage {
 	public ViewDetails viewDetailsFrance(JavascriptExecutor javascriptExecutor,String requestor,String deliveryAddress,String nature,String agency,String type,String realEstateReference,String prType,String Approver,String ssp) throws InterruptedException {
 		headerData(requestor).
 		addAddress(deliveryAddress).
-		editCodingFR( javascriptExecutor, nature, agency, type, realEstateReference, prType, Approver, ssp);
+		editCodingFR( javascriptExecutor, nature, agency, type, realEstateReference, prType, Approver, ssp).
+		viewDetailsButton();
 		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(viewDetailsXpath)));
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsXpath))).click();
-		wait.until(ExpectedConditions.elementToBeClickable(By.xpath(viewDetailsButtonXpath))).click();
+		return new ViewDetails(driver); 
+	}
+	
+	public ViewDetails viewDetailsGalittNew(JavascriptExecutor javascriptExecutor,String requestor,String deliveryAddress,String coding,String agency,String type,String prType,String ssp) throws InterruptedException {
+		headerData(requestor).
+		addAddress(deliveryAddress).
+		editCodingNew(javascriptExecutor, coding, agency, type, ssp).
+		viewDetailsButton();
 		
 		return new ViewDetails(driver); 
 	}

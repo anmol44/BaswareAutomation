@@ -15,6 +15,8 @@ public class Form extends BasePage {
 	static String beLogisticsXpath = "//div[@class='card-icon fa fa-building']";
 	static String beStandardSBS136Xpath = "//div[@class='card-icon fa fa-map-marker']";
 	
+	private By ItXpath = By.xpath("//div[@class='card-icon fa fa-desktop']");
+	
 
 
 	
@@ -50,8 +52,11 @@ public class Form extends BasePage {
 				}
 			else if(type.equalsIgnoreCase("Logistics")) {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(beLogisticsXpath))).click();
-			} else 
+			} else if(type.equalsIgnoreCase("Standard")) {
 				wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(beStandardSBS136Xpath))).click();
+			} else if(type.equalsIgnoreCase("It")) {
+				wait.until(ExpectedConditions.visibilityOfElementLocated(ItXpath)).click();
+			}
 		
 		return this;
 	}

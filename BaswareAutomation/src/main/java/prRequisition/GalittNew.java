@@ -32,7 +32,7 @@ import pages.ReviewAndApprove;
 import pages.Shop;
 import pages.ViewDetails;
 
-public class Spain extends BaseTest {
+public class GalittNew extends BaseTest {
 	
 	
 	static HashMap<Integer, HashMap<String,String>> excelData;
@@ -103,14 +103,6 @@ public class Spain extends BaseTest {
 						
 						test.log(Status.INFO, "Error Screenshot not found");
 					}
-				try {
-					OutPutSheet.updateStatus(workbook, sheet, status, i,excelData);
-				}
-				
-				catch(Exception ex) {
-					
-					ex.printStackTrace();
-				}
 				
 				continue;
 			}
@@ -127,21 +119,21 @@ public class Spain extends BaseTest {
 					
 				test.log(Status.INFO, "Select Orgainzation ");
 				Form form = new Form(driver);
-					form.editRequisitionSpain(excelData.get(i).get("PRForm"));
+					form.editRequisitionGalitt(excelData.get(i).get("PRForm"));
 				
 				test.log(Status.INFO, "Enter Data for Edit Requisition creation ");
 				EditRequisition editRequisition = new EditRequisition(driver);
-					editRequisition.editCodingSpain(excelData.get(i).get("OrderDesc"),excelData.get(i).get("Product Name"), excelData.get(i).get("PurchaseCategory"),excelData.get(i).get("Supplier"), excelData.get(i).get("Quantity"),excelData.get(i).get("UnitPrice"),excelData.get(i).get("Currency"), excelData.get(i).get("PR tYPE"));
+					editRequisition.editCodingGalitt(excelData.get(i).get("OrderDesc"),excelData.get(i).get("Product Name"), excelData.get(i).get("PurchaseCategory"),excelData.get(i).get("Supplier"), excelData.get(i).get("Quantity"),excelData.get(i).get("UnitPrice"),excelData.get(i).get("Currency"), excelData.get(i).get("PR tYPE"));
 					test.log(Status.INFO, "Enter Data for Edit Requisition successfull ");
 					
 					test.log(Status.INFO, "Enter Data for Edit Coding creation ");
 				EditCoding editCoding = new EditCoding(driver);
-					editCoding.viewDetailsSpain(javascriptExecutor, excelData.get(i).get("Requestor"), excelData.get(i).get("Delivery Address"), excelData.get(i).get("Nature"), excelData.get(i).get("Agency/Site"),excelData.get(i).get("Type"), excelData.get(i).get("PR tYPE"),excelData.get(i).get("SSP"));
+					editCoding.viewDetailsGalittNew(javascriptExecutor, excelData.get(i).get("Requestor"), excelData.get(i).get("Delivery Address"), excelData.get(i).get("Coding"), excelData.get(i).get("Agency/Site"),excelData.get(i).get("Type"), excelData.get(i).get("PR tYPE"),excelData.get(i).get("SSP"));
 					test.log(Status.INFO, "Enter Data for Edit Coding successfull ");
 					
 				test.log(Status.INFO, "Enter Data for View Details creation ");	
 				ViewDetails viewDetails = new ViewDetails(driver);
-					viewDetails.getApproveSpain(excelData.get(i).get("Quantity"), excelData.get(i).get("UnitPrice"),excelData.get(i).get("Payment Terms"));
+					viewDetails.getApproveGalitt(excelData.get(i).get("Quantity"), excelData.get(i).get("UnitPrice"),excelData.get(i).get("Payment Terms"));
 					test.log(Status.INFO, "Enter Data for View Details successfull ");	
 					
 				test.log(Status.INFO, "Get Approve Successfull");
@@ -161,7 +153,7 @@ public class Spain extends BaseTest {
 					ReviewAndApprove reviewAndApprove = new ReviewAndApprove(driver);
 					while (excelData.get(i).containsKey(Reviewer + j) && !excelData.get(i).get(Reviewer + j).isEmpty()) {
 						System.out.println(excelData.get(i).containsKey(Reviewer + j));
-						status = reviewAndApprove.review(javascriptExecutor,excelData.get(i).get(Reviewer + j),excelData.get(i).get("Password"),excelData.get(i).get("OrderDesc"),excelData.get(i).get("docType"),prNumber,status,excelData.get(i).get("Url"),i,j,test);
+					status = reviewAndApprove.review(javascriptExecutor,excelData.get(i).get(Reviewer + j),excelData.get(i).get("Password"),excelData.get(i).get("OrderDesc"),excelData.get(i).get("docType"),prNumber,status,excelData.get(i).get("Url"),i,j,test);
 						j++;
 					}
 					j=1;
@@ -171,7 +163,7 @@ public class Spain extends BaseTest {
 					ReviewAndApprove reviewAndApprove = new ReviewAndApprove(driver);
 					while (excelData.get(i).containsKey(Approver + j) && !excelData.get(i).get(Approver + j).isEmpty()) {
 						System.out.println(excelData.get(i).containsKey(Approver + j));
-					status = reviewAndApprove.approve(javascriptExecutor,excelData.get(i).get(Approver + j),excelData.get(i).get("Password"),excelData.get(i).get("OrderDesc"),excelData.get(i).get("docType"),prNumber,status,excelData.get(i).get("Url"),i,j,test);
+						status = reviewAndApprove.approve(javascriptExecutor,excelData.get(i).get(Approver + j),excelData.get(i).get("Password"),excelData.get(i).get("OrderDesc"),excelData.get(i).get("docType"),prNumber,status,excelData.get(i).get("Url"),i,j,test);
 						j++;
 					}
 					j=1;
@@ -209,3 +201,4 @@ public class Spain extends BaseTest {
 	}
 	
 }
+

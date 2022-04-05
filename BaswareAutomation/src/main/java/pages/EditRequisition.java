@@ -15,12 +15,12 @@ public class EditRequisition extends BasePage {
 	static String supplierSelect2Xpath = "')]";
 	static String supplierProductNameSBS136SubcontractingXpath= "/html/body/div/section/section/section/div/form/ul/li[2]/span/div/bw-freetext-field-switcher/div/div/bw-freetext-text-field/pal-field-container/div/div/div/input";
 	static String purchaseCategoryButtonXpath = "//button[@type='button' and @class='pal-tree-select-toggle-btn ng-invalid']";
-	static String purchaseCategorySearchXpath = "/html/body/div/section/section/section/div/form/ul/li[3]/span/div/bw-freetext-field-switcher/div/div/bw-freetext-category-field/pal-field-container/div/div/div/pal-tree-single-select/div/div[2]/pal-tree-view/div/div[1]/div/input";
+	static String purchaseCategorySearchXpath = "//input[@data-t-id='pal-tree-single-select-search-input']";
 	static String purchaseCategoryButtonFRXpath="//button[@class='pal-tree-select-toggle-btn ng-invalid']";
 	static String purchaseCategorySearchFRXpath="/html/body/div/section/section/section/div/form/ul/li[2]/span/div/bw-freetext-field-switcher/div/div/bw-freetext-category-field/pal-field-container/div/div/div/pal-tree-single-select/div/div[2]/pal-tree-view/div/div[1]/div/input";
 	// Change of Purchase category Xpath  (class from  'pal-tree-item-label ng-binding'   to   'pal-tree-item-checkbox-container' )
-	static String purchaseCategorySelect1Xpath = "//span[@class='pal-tree-item-checkbox-container' and   '"; 
-    static String purchaseCategorySelect2Xpath = "']";
+	static String purchaseCategorySelect1Xpath = "//span[@class='ui-select-highlight' and contains(text(),'"; 
+    static String purchaseCategorySelect2Xpath = "')]//parent::span[@class='pal-tree-item-label ng-binding']//parent::span";
     static String supplierButtonXpath = "//button[@type='button' and @class='pal-single-select-toggle-btn'][1]";
 	static String supplierSearchXpath = "/html/body/div/section/section/section/div/form/ul/li[4]/span/div/bw-freetext-field-switcher/div/div/bw-freetext-category-supplier-field/pal-field-container/div/div/div/pal-single-select/div/div[2]/pal-single-select-dropdown/div/div[1]/div/input";
 	static String supplierSelect1XpathFR="//span[@class='ui-select-highlight' and contains(text(),'";
@@ -83,9 +83,13 @@ public class EditRequisition extends BasePage {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(currencySearchXpath))).sendKeys(currency);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(currencySearch1Xpath+currency+currencySearch2Xpath))).click();
 			
+			if(!prType.isEmpty()) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeButtonXpath))).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeSearchXpath))).sendKeys(prType);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeSelect1Xpath+prType+prTypeSelect2Xpath))).click();
+			}
+		
+
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(editRequisitionXpath))).click();
 		
 		return this;
@@ -125,9 +129,13 @@ public class EditRequisition extends BasePage {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(currencySearchXpathFR))).sendKeys(currency);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(currencySearch1XpathFR+currency+currencySearch2XpathFR))).click();
 			
+		if(!prType.isEmpty()) {	
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeButtonXpathFR))).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeSearchXpathFR))).sendKeys(prType);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeSelect1XpathFR+prType+prTypeSelect2XpathFR))).click();
+
+		}
+		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(editRequisitionXpath))).click();
 		
 		return this;
@@ -210,10 +218,11 @@ public class EditRequisition extends BasePage {
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(currencySearchXpath))).sendKeys(currency);
 			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(currencySearch1Xpath+currency+currencySearch2Xpath))).click();
 			
-	
+		if(!prType.isEmpty()) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeButtonXpath))).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeSearchXpath))).sendKeys(prType);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeSelect1Xpath+prType+prTypeSelect2Xpath))).click();
+		}
 		
 		
 		return this;
@@ -258,10 +267,11 @@ public class EditRequisition extends BasePage {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(currencySearchXpathFR))).sendKeys(currency);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(currencySearch1XpathFR+currency+currencySearch2XpathFR))).click();
 		
-
+		if(!prType.isEmpty()) {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeButtonXpathFR))).click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeSearchXpathFR))).sendKeys(prType);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(prTypeSelect1XpathFR+prType+prTypeSelect2XpathFR))).click();
+		}
 		
 		return this;
 	}
