@@ -48,7 +48,7 @@ public class Galitt extends BaseTest {
 	static String prNumber="";
 	static int j=1;
 	
-	@Test
+	@Test // Galitt Test
 	@Parameters("Name")
 	public void sbs(String Name) throws IOException {
 		
